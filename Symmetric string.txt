@@ -1,0 +1,72 @@
+//Given a lowercase alphabet string s, find the minimum number of swaps required to make it a
+//symmetry string. If it's not possible, then return -1.
+import java.util.*;
+class SymmetricString {
+    // To Count minimum swap
+    static int swapCount(char ch[],int len)
+    {
+        int count = 0;//To count the swap
+        for (int i = 0; i < len / 2; i++)
+        {
+            int front=i;
+            int rear = len - front- 1;//initialized from rear end
+            while (front< rear)//while loop runs from rear end to front end
+            {
+                // break the loop if char at the positions front and rear are same else move towards front end from rear end
+                if (ch[front] == ch[rear])
+                {
+                    break;
+                }
+                else
+                {
+                    rear--;
+                }
+            }
+            if (front==rear)
+            {//if both front and rear are at same position than there is insufficient char to make a palindrome string so return -1
+                return -1;
+            }
+            else
+            {//swapping the characters
+                for (int j = rear;j < len - front - 1; j++)
+                {
+                    char t = ch[j];//temporary variable
+                    ch[j] = ch[j + 1];
+                    ch[j + 1] = t;
+                    count++;//incrementing the swap variable as we swapped the characters
+                }
+            }
+        }
+
+        return count;
+    }
+
+    //Main Method
+    public static void main(String[] args)
+    {
+        Scanner sc=new Scanner(System.in);
+        System.out.println("Enter the String");
+        //Input String
+        String str = sc.nextLine();
+        //Converting all the characters of String into lowercase char
+        str=str.toLowerCase();
+        //String to Char Array
+        char ch[] = str.toCharArray();
+        //initializing a Char Array
+        char Rstr[]=new char[ch.length];
+        //Method calling for Original String
+        int original = swapCount(ch,ch.length);
+       //Reversing Original Char Array
+       for(int i=ch.length-1;i<=0;i--)
+       {
+           Rstr[i-ch.length-1] = ch[i];
+       }
+        // Method calling for reversed string
+        int reverse = swapCount(Rstr,Rstr.length);
+       //Comparison between swap counts of Original string and reversed string
+        if(original >reverse)
+            System.out.println(original);
+        else
+            System.out.println(reverse);
+    }
+}
